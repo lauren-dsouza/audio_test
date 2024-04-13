@@ -5,6 +5,7 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">About Our Services</h2>
                 <button id="recordButton" class="btn btn-primary">Start Recording</button>
+                <button id="saveButton" class="btn btn-success" style="display:none;">Save Recording</button>
                 <h3 class="section-subheading text-muted">MemoryMate is a comprehensive program designed to provide memory support for the elderly, particularly those with a family history of Alzheimer's disease or those currently diagnosed with it. Our program allows users to record voice memos throughout the day, which are then used to generate memory quizzes. This not only helps users keep track of their daily activities but also serves as a tool for early detection of Alzheimer's disease through data analysis. <br> Our hackathon project is aimed to target the theme: Social Good. Specifically, public health, education, and finance.</h3>
                 <h3 class="section-subheading text-muted"><br><br>Problem Statement: As the elderly population grows, so does the prevalence of memory-related issues and Alzheimer's disease. Current solutions often fail to provide adequate support and early detection, leaving caregivers and individuals vulnerable to overlooked signs and safety risks.</h3>
             </div>
@@ -50,15 +51,17 @@
     </div>
 </section>
 
-<audio controls id="audioPlayback"></audio>
+<audio controls id="audioPlayback" style="display:none;"></audio>
 
 <script>
     let mediaRecorder;
     let chunks = [];
     const recordButton = document.getElementById('recordButton');
+    const saveButton = document.getElementById('saveButton');
     const audioPlayback = document.getElementById('audioPlayback');
 
     recordButton.addEventListener('click', toggleRecording);
+    saveButton.addEventListener('click', saveRecording);
 
     async function toggleRecording() {
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
@@ -79,6 +82,8 @@
                 const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
                 const audioURL = URL.createObjectURL(blob);
                 audioPlayback.src = audioURL;
+                audioPlayback.style.display = 'block';
+                saveButton.style.display = 'inline-block';
             });
             mediaRecorder.start();
             recordButton.textContent = 'Stop Recording';
@@ -92,5 +97,17 @@
             mediaRecorder.stop();
             recordButton.textContent = 'Start Recording';
         }
+    }
+
+    function saveRecording() {
+        const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'recording.ogg';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
     }
 </script>
