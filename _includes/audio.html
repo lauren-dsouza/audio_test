@@ -6,7 +6,7 @@
     <title>audio-recorder</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="demo/css/styles.css" rel="stylesheet">
+    <link href="_includes/css/record.css" rel="stylesheet">
   </head>
   <body>
     <header>
@@ -15,7 +15,7 @@
         &lt;audio-recorder&gt;
 
         <a href="https://github.com/DannyMoerkerke/audio-recorder" target="_blank" rel="noopener" id="github">
-          <img src="demo/img/github.svg" />
+          <img src="/img/github.svg" />
         </a>
       </section>
     </header>
@@ -192,7 +192,7 @@ recorder.addEventListener('notallowed' e => {
       </div>
     </dialog>
 
-    <script type="module" src="src/audio-recorder.js"></script>
+    <script type="module" src="recording/src/audio-recorder.js"></script>
     <script>
       const recorder = document.querySelector('audio-recorder');
       const micPermissionDialog = document.querySelector('#mic-permission-dialog');
