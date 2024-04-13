@@ -1,64 +1,99 @@
 <!-- Portfolio Grid Section -->
-<section id="portfolio" class="bg-light-gray">
+<section id="portfolio">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Portfolio</h2>
-                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                <h2 class="section-heading">About Our Services</h2>
+                <button id="recordButton" class="btn btn-primary">Start Recording</button>
+                <h3 class="section-subheading text-muted">MemoryMate is a comprehensive program designed to provide memory support for the elderly, particularly those with a family history of Alzheimer's disease or those currently diagnosed with it. Our program allows users to record voice memos throughout the day, which are then used to generate memory quizzes. This not only helps users keep track of their daily activities but also serves as a tool for early detection of Alzheimer's disease through data analysis. <br> Our hackathon project is aimed to target the theme: Social Good. Specifically, public health, education, and finance.</h3>
+                <h3 class="section-subheading text-muted"><br><br>Problem Statement: As the elderly population grows, so does the prevalence of memory-related issues and Alzheimer's disease. Current solutions often fail to provide adequate support and early detection, leaving caregivers and individuals vulnerable to overlooked signs and safety risks.</h3>
             </div>
         </div>
-        <div class="row">
-        {% for post in site.posts %}
-            <div class="col-md-4 col-sm-6 portfolio-item">
-                <a href="#portfolioModal{{ post.modal-id }}" class="portfolio-link" data-toggle="modal">
-                    <div class="portfolio-hover">
-                        <div class="portfolio-hover-content">
-                            <i class="fa fa-plus fa-3x"></i>
-                        </div>
-                    </div>
-                    <img src="img/portfolio/{{ post.thumbnail }}" class="img-responsive img-centered" alt="">
-                </a>
-                <div class="portfolio-caption">
-                    <h4>{{ post.title }}</h4>
-                    <p class="text-muted">{{ post.subtitle }}</p>
-                    <!-- Add audio recording button -->
-                    <button onclick="startRecording('{{ post.title }}')" class="btn btn-primary">Start Recording</button>
-                </div>
+        <div class="row text-center">
+            <div class="col-md-6">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Memory Quizzes and Alzheimer's Detection</h4>
+                <p class="text-muted">Based on the recorded voice memos, the program generates memory quizzes to help users exercise their cognitive abilities. Users receive random notifications throughout the day to answer questions based on their recorded memos.Data analysis is performed over time to identify any potential signs of Alzheimer's disease based on the user's quiz results. Caregivers are alerted if there are indications of cognitive decline, prompting them to seek medical evaluation.</p>
+                <br>
+                <br>
             </div>
-        {% endfor %}
+            <div class="col-md-6">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Location Tracking and Safety Features</h4>
+                <p class="text-muted">Location tracking functionality allows caregivers to monitor the whereabouts of the elderly users. Caregivers can set zones (red, green, yellow) and receive notifications if the user wanders into restricted areas, ensuring their safety. In the case the user is found in a red or yellow zone, caregivers are notified immediately. Caregivers can use the program to call for Uber/Lyft services to safely bring the user back home if they are unable to return on their own.</p>
+                <br>
+                <br>
+            </div>
+            <div class="col-md-6">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-caret-right fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Voice Memo Recording</h4>
+                <p class="text-muted">Users can easily record voice memos throughout the day using our intuitive interface. Memos are automatically timestamped and dated for reference.</p>
+            </div>
+            <div class="col-md-6">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-book fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Educational and Financial Resources</h4>
+                <p class="text-muted"> The website will provide access to educational and financial resources to support the well-being and independence of both people with memory issues and their caregivers.</p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Audio Recorder -->
 <audio controls id="audioPlayback"></audio>
 
 <script>
-    let audioChunks = [];
     let mediaRecorder;
+    let chunks = [];
+    const recordButton = document.getElementById('recordButton');
     const audioPlayback = document.getElementById('audioPlayback');
 
-    async function startRecording(title) {
-        audioChunks = [];
+    recordButton.addEventListener('click', toggleRecording);
+
+    async function toggleRecording() {
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            startRecording();
+        } else if (mediaRecorder.state === 'recording') {
+            stopRecording();
+        }
+    }
+
+    async function startRecording() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
-
             mediaRecorder.addEventListener('dataavailable', event => {
-                audioChunks.push(event.data);
+                chunks.push(event.data);
             });
-
             mediaRecorder.addEventListener('stop', () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                const audioUrl = URL.createObjectURL(audioBlob);
-                audioPlayback.src = audioUrl;
-                // Add logic to save the audio recording along with the portfolio item
-                alert('Audio recording saved for ' + title);
+                const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+                const audioURL = URL.createObjectURL(blob);
+                audioPlayback.src = audioURL;
             });
-
             mediaRecorder.start();
-        } catch (err) {
-            console.error('Error starting recording: ', err);
+            recordButton.textContent = 'Stop Recording';
+        } catch (error) {
+            console.error('Error starting recording:', error);
+        }
+    }
+
+    function stopRecording() {
+        if (mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+            recordButton.textContent = 'Start Recording';
+        }
+    }
+</script>
         }
     }
 </script>
