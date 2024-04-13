@@ -1,0 +1,55 @@
+url: https://reenyhuang.github.io/
+baseurl: /alzheimers/
+
+# Site settings
+title: MemoryMate
+email: ywreenyhuang@gmail.com
+description: "MemoryMate is a comprehensive program designed to provide memory support for the elderly, particularly those with a family history of Alzheimer's disease or those currently diagnosed with it. Our program allows users to record voice memos throughout the day, which are then used to generate memory quizzes. This not only helps users keep track of their daily activities but also serves as a tool for early detection of Alzheimer's disease through data analysis."
+
+
+# Team names, titles and social links
+people:
+- name: Sneha Thomas
+  pic: 1
+  position: Freshman majoring in Computer Science
+  social:
+    - title: github
+      url: https://github.com/snehathomas4427
+    - title: LinkedIn
+      url: https://www.linkedin.com/in/sneha-thomas-23457b214/
+
+- name: Audrey Pan
+  pic: 2
+  position: Sophomore majoring in Computer Science
+  social:
+    - title: github
+      url: https://github.com/paudrey26
+    - title: LinkedIn
+      url: www.linkedin.com/in/audreypan09
+
+- name: Reeny Huang
+  pic: 3
+  position: Sophomore majoring in Interdisciplinary Computing - Economics
+  social:
+    - title: github
+      url: https://github.com/reenyhuang
+    - title: LinkedIn
+      url: https://www.linkedin.com/in/yuwen-reeny-huang/
+      
+- name: Lauren D'Souza
+  pic: 3
+  position: Sophomore majoring in Computer Science
+  social:
+    - title: github
+      url: https://github.com/lauren-dsouza
+    - title: LinkedIn
+      url: https://www.linkedin.com/in/lauren-d-souza-98149b21b/
+
+# Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
+social:
+  - title: github
+    url: https://github.com/reenyhuang/alzheimers
+
+# Build settings
+markdown: kramdown
+permalink: pretty
